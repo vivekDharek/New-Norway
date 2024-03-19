@@ -44,6 +44,7 @@ public class CONTRACT {
     public String getReq_varification() {
         return req_varification;
     }
+    
     public CONTRACT(String id, String external_id, String req_type, String obj_text, String req_title,
             String req_rational, String cust_comments, String req_forwarding, String req_varification) {
         this.id = id;

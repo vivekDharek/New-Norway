@@ -16,5 +16,12 @@ public class ContractDTO {
     private String cust_comments;
     private String req_forwarding;
     private String req_varification;
-	
+    
+	@Override
+	public String toString() {
+		return "ContractDTO [id=" + id + ", external_id=" + external_id + ", req_type=" + req_type + ", obj_text="
+				+ obj_text + ", req_title=" + req_title + ", req_rational=" + req_rational + ", cust_comments="
+				+ cust_comments + ", req_forwarding=" + req_forwarding + ", req_varification=" + req_varification + "]";
+	}
+	 
 }

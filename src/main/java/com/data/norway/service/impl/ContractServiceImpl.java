@@ -21,7 +21,6 @@ public class ContractServiceImpl implements ContractService {
 	private ContractRepository contractRepository;
 	
 	public ContractServiceImpl(Driver driver, ContractRepository contractRepository) {
-		super();
 		this.driver = driver;
 		this.contractRepository = contractRepository;
 	}

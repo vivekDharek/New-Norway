@@ -3,11 +3,13 @@ package com.data.norway.controller;
 import java.util.*;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.data.norway.DTO.ContractDTO;
+import com.data.norway.model.CONTRACT;
 import com.data.norway.service.ContractService;
 
 @RestController
@@ -25,9 +27,10 @@ public class ContractController {
 	}
 	
 	@GetMapping("/contracts/{id}")
-	public List<ContractDTO> getById(@PathVariable("id") String id){
+	public String getById(@PathVariable("id") String id, Model model){
 		List<ContractDTO> contract = contractService.findbyID(id);
-		return contract;
+		model.addAttribute("contract", contract);
+		return "try";
 	}
 
 }

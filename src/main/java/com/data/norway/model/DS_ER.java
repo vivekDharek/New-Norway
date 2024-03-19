@@ -17,6 +17,8 @@ public class DS_ER {
 	String val_proof;
 	String val_result;
 	String val_statement;
+	String ac_condition;
+	String validates;
 
 	@Relationship(type = "validates", direction = Relationship.Direction.OUTGOING)
 	List<SSRS_DS> validatesTo = new ArrayList<SSRS_DS>();
@@ -25,9 +27,17 @@ public class DS_ER {
 		this.validatesTo = new ArrayList<SSRS_DS>();
 	}
 
+	public String getAc_condition() {
+		return ac_condition;
+	}
+
+	public String getValidates() {
+		return validates;
+	}
+
 	public DS_ER(String id, String obj_text, String req_type, String val_evidence, String val_proof, String val_result,
-			String val_statement) {
-				super();
+			String val_statement, String ac_condition, String validates) {
+		super();
 		this.id = id;
 		this.obj_text = obj_text;
 		this.req_type = req_type;
@@ -35,6 +45,8 @@ public class DS_ER {
 		this.val_proof = val_proof;
 		this.val_result = val_result;
 		this.val_statement = val_statement;
+		this.ac_condition = ac_condition;
+		this.validates = validates;
 	}
 
 	public String getId() {
