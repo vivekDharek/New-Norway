@@ -20,7 +20,7 @@ import com.data.norway.model.SSRS_DS;
 import com.data.norway.repository.DS_ER_Repository;
 import com.data.norway.service.DS_ER_Service;
 
-@RestController
+@Controller
 public class DS_ER_Controller {
 
 	private DS_ER_Service ds_er_service;
@@ -41,11 +41,11 @@ public class DS_ER_Controller {
 	}
 	
 	@GetMapping(value = "/ds_er/{id}/rel-optional")
-	public List<String> findRel(@PathVariable("id") String id, Model model) {
-		Set<String> values = ds_er_service.findRelOptional(id);
-		List<String> valuesList = values.stream().collect(Collectors.toList());
+	public String findRel(@PathVariable("id") String id, Model model) {
+		List<Map<String, Object>> values = ds_er_service.findRelOptional(id);
+		//List<String> valuesList = values.stream().collect(Collectors.toList());
 		model.addAttribute("values", values);
-		return valuesList;
+		return "Relationship";
 	}
 	
 	@GetMapping(value = "/ds_er/{id}")
