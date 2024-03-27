@@ -1,14 +1,17 @@
 package com.data.norway.controller;
 
+import java.util.*;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.data.norway.DTO.DS_ER_DTO;
@@ -21,18 +24,27 @@ import com.data.norway.service.DS_ER_Service;
 public class DS_ER_Controller {
 
 	private DS_ER_Service ds_er_service;
-	private DS_ER_Repository ds_ER_Repository;
 	
-	public DS_ER_Controller(DS_ER_Service ds_er_service, DS_ER_Repository ds_ER_Repository ) {
+	public DS_ER_Controller(DS_ER_Service ds_er_service) {
 		super();
 		this.ds_er_service = ds_er_service;
-		this.ds_ER_Repository = ds_ER_Repository;
 	}
 
 	@GetMapping(value = "/ds_er/{id}/rel")
-	public List<DS_ER> byIdrel(@PathVariable("id") String id){
+	//@ResponseBody
+	public List<DS_ER> byIdrel(@PathVariable("id") String id, Model model){
 		Optional<DS_ER> values = ds_er_service.findRel(id);
 		List<DS_ER> valuesList = values.stream().collect(Collectors.toList());
+		System.out.println(valuesList.size());
+		//model.addAttribute("values", valuesList);
+		return valuesList;
+	}
+	
+	@GetMapping(value = "/ds_er/{id}/rel-optional")
+	public List<String> findRel(@PathVariable("id") String id, Model model) {
+		Set<String> values = ds_er_service.findRelOptional(id);
+		List<String> valuesList = values.stream().collect(Collectors.toList());
+		model.addAttribute("values", values);
 		return valuesList;
 	}
 	

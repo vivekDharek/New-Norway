@@ -1,8 +1,6 @@
 package com.data.norway.service;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 import org.springframework.stereotype.Service;
 
@@ -14,4 +12,7 @@ import com.data.norway.model.SSRS_DS;
 public interface DS_ER_Service {
 	List<DS_ER_DTO> findByID(String id);
 	Optional<DS_ER> findRel(String id);
+	
+	Set<String> findRelOptional(String id);
+	//ArrayList<String> findRelOptional(String id);
 }
