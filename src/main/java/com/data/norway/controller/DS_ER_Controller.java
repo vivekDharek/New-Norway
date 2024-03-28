@@ -42,10 +42,10 @@ public class DS_ER_Controller {
 	
 	@GetMapping(value = "/ds_er/{id}/rel-optional")
 	public String findRel(@PathVariable("id") String id, Model model) {
-		List<Map<String, Object>> values = ds_er_service.findRelOptional(id);
+		List<Map<String, Object>> jsonData = ds_er_service.findRelOptional(id);
 		//List<String> valuesList = values.stream().collect(Collectors.toList());
-		model.addAttribute("values", values);
-		return "Relationship";
+		model.addAttribute("jsonData", jsonData);
+		return "demo";
 	}
 	
 	@GetMapping(value = "/ds_er/{id}")
