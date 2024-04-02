@@ -16,30 +16,9 @@ import com.data.norway.service.DS_ER_Service;
 @Controller
 public class IndexController {
 	
-	private ContractService contractService;
-	private DS_ER_Service ds_er_service;
-	
-	public IndexController(ContractService contractService, DS_ER_Service ds_er_service) {
-		super();
-		this.contractService = contractService;
-		this.ds_er_service = ds_er_service;
-	}
-
-	//@RequestMapping("/")
-	//public String home() {
-		//return "home";
-	//}
-	
-	@GetMapping("/")
-	public String getById(Model model){
-		List<ContractDTO> contract = contractService.findbyID("CON_ERTMS_TRA_27640");
-		model.addAttribute("contract", contract);
-		return "try";
-	}
-
-	/*@GetMapping(value = "/ds_er/{id}")
-	public List<DS_ER_DTO> byId(@PathVariable("id") String id){
-		return ds_er_service.findByID(id);
+	/*@GetMapping("/")
+	public String index(){
+		return "home";
 	}*/
 	
 }

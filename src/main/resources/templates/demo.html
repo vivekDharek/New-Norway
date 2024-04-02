@@ -29,66 +29,13 @@
 
 <div id="container"></div>
 
-<script>
-    var jsonData = [
-    {
-        "properties(m)": {
-            "obj_text": "The Diagnostic System shall be able to compare the detected with the calibrated values it receives from Train Detection System via the interface specified in [REF:SSRS_DS_2510].",
-            "req_type": "DEF",
-            "id": "SSRS_DS_1649",
-            "stage": "Stage 1\nStage 2\nStage 3\n"
-        }
-    },
-    {
-        "properties(m)": {
-            "obj_text": "The Diagnostic System shall be able to compare the detected with the calibrated values it receives from Train Detection System via the interface specified in the Technical System Generic Interface Description [REF:GA_SAD_242]. \n\nNote: The detected and calibrated values will be provided by the Train Detection System. [REF:GA_SAD_2325] \n\n",
-            "req_forwarding": "SSRS_Diagnostic System",
-            "id": "GA_SAD_2326",
-            "req_type": "DEF",
-            "stage": "Stage 1\nStage 2\nStage 3"
-        }
-    },
-    {
-        "properties(m)": {
-            "obj_text": "The Signalling System shall record detected values and compare them with calibration limits of each element type.\n\nNote: The wheel detection pulse is a specific instance of a detected value, the reference pulse is then the calibrated value.",
-            "req_forwarding": "GA_SAD",
-            "id": "GA_SRS_643",
-            "req_type": "DEF",
-            "stage": "Stage 1\nStage 2\nStage 3"
-        }
-    },
-    {
-        "properties(m)": {
-            "obj_text": "The diagnostic system shall monitor and log at least the following information about physical elements:",
-            "req_title": "Monitoring physical elements",
-            "req_verifaction": "OK",
-            "req_forwarding": "GA_SRS",
-            "external_id": "ENI-SS-SU-DS-96",
-            "req_type": "DEF",
-            "id": "CON_ERTMS_TRA_4159"
-        }
-    },
-    {
-        "properties(m)": {
-            "obj_text": "f) all calibrated values and compare detected values with calibration limits of each element type",
-            "req_verifaction": "OK",
-            "req_forwarding": "GA_SRS",
-            "external_id": "ENI-SS-SU-DS-102",
-            "req_type": "DEF",
-            "id": "CON_ERTMS_TRA_4165"
-        }
-    },
-    {
-        "properties(m)": {
-            "obj_text": "e) wheel detection pulse of axle counter system and compare detected pulse with reference pulse",
-            "req_verifaction": "OK",
-            "req_forwarding": "GA_SRS",
-            "external_id": "ENI-SS-SU-DS-101",
-            "req_type": "DEF",
-            "id": "CON_ERTMS_TRA_4164"
-        }
-    }
-];
+	<script th:inline="javascript">
+	    /*<![CDATA[*/
+	        var jsonData = /*[[${jsonData}]]*/ '{}'; // Assuming jsonData is the data you want to pass from the controller
+	        
+	    /*]]>*/
+	</script>
+<!--<script>
 
     function createTable(data, parentElement) {
         var tableContainer = document.createElement('div');
@@ -119,6 +66,66 @@
 
         tableContainer.appendChild(table);
         parentElement.appendChild(tableContainer);
+    }
+
+    var container = document.getElementById('container');
+    createTable(jsonData, container);
+</script>-->
+
+<script>
+	
+	function createTable(data, parentElement) {
+		
+		 Object.values(data).forEach(function(value) {
+				//alert(value)
+	            
+		        
+		        Object.values(value).forEach(function(key) {
+					
+					var tableContainer = document.createElement('div');
+				        tableContainer.classList.add('table-container');
+				
+				        var table = document.createElement('table');
+				
+				        var header = table.createTHead();
+				        var row = header.insertRow();
+					
+					Object.keys(key).forEach(function(k){
+						
+			            var th = document.createElement('th');
+			            th.textContent = k;
+			            row.appendChild(th);
+			            
+					});
+					var tbody = document.createElement('tbody');
+			        table.appendChild(tbody);
+			
+			        var row = tbody.insertRow();
+			        Object.values(key).forEach(function(value) {
+			            var cell = row.insertCell();
+			            cell.textContent = value;
+			        });		
+					tableContainer.appendChild(table);
+		        	parentElement.appendChild(tableContainer);
+	        });
+	            
+	    });
+	      
+        
+        //var tbody = document.createElement('tbody');
+        //table.appendChild(tbody);
+
+        /*var row = tbody.insertRow();
+        Object.values(data).forEach(function(value) {
+            var cell = row.insertCell();
+            if (typeof value === 'object') {
+                createTable(value, cell);
+            } else {
+                cell.textContent = value;
+            }
+        });*/
+
+
     }
 
     var container = document.getElementById('container');

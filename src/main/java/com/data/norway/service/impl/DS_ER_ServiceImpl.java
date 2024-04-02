@@ -3,6 +3,8 @@ package com.data.norway.service.impl;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.neo4j.driver.*;
 import org.neo4j.driver.Record;
 import org.neo4j.driver.Values;
@@ -69,7 +71,6 @@ public class DS_ER_ServiceImpl implements DS_ER_Service {
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
-		System.out.println(resultList);
 		return resultList;
 	}
 	

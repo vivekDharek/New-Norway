@@ -1,11 +1,9 @@
 package com.data.norway.controller;
 
 import java.util.*;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.json.JSONObject;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,7 +18,7 @@ import com.data.norway.model.SSRS_DS;
 import com.data.norway.repository.DS_ER_Repository;
 import com.data.norway.service.DS_ER_Service;
 
-@Controller
+@RestController
 public class DS_ER_Controller {
 
 	private DS_ER_Service ds_er_service;
@@ -41,17 +39,17 @@ public class DS_ER_Controller {
 	}
 	
 	@GetMapping(value = "/ds_er/{id}/rel-optional")
-	public String findRel(@PathVariable("id") String id, Model model) {
-		List<Map<String, Object>> jsonData = ds_er_service.findRelOptional(id);
+	public List<Map<String, Object>> findRel(@PathVariable("id") String id, Model model) {
+		List<Map<String, Object>> listSet = ds_er_service.findRelOptional(id);
 		//List<String> valuesList = values.stream().collect(Collectors.toList());
-		model.addAttribute("jsonData", jsonData);
-		return "demo";
+		model.addAttribute("jsonData", listSet);
+		return listSet;
 	}
 	
 	@GetMapping(value = "/ds_er/{id}")
 	public String byId(@PathVariable("id") String id, Model model){
 		List<DS_ER_DTO> dsd = ds_er_service.findByID(id);
-		model.addAttribute("dsd", dsd);
+		model.addAttribute("ds", dsd);
 		return "ds";
 	}
 
