@@ -55,4 +55,10 @@ public class SRS {
         return realizedTo;
     }
 
+	public void setRealizedTo(List<CONTRACT> realizedTo) {
+		this.realizedTo = realizedTo;
+	}
+
+    
+    
 }

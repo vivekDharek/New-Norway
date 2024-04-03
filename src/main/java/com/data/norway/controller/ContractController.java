@@ -12,7 +12,7 @@ import com.data.norway.DTO.ContractDTO;
 import com.data.norway.model.CONTRACT;
 import com.data.norway.service.ContractService;
 
-@RestController
+@Controller
 public class ContractController {
 	
 	private ContractService contractService;
@@ -30,7 +30,7 @@ public class ContractController {
 	public String getById(@PathVariable("id") String id, Model model){
 		List<ContractDTO> contract = contractService.findbyID(id);
 		model.addAttribute("contract", contract);
-		return "try";
+		return "contract";
 	}
 
 }

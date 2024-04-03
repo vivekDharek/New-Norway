@@ -1,45 +1,21 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
-<meta charset="ISO-8859-1">
-<title>Insert title here</title>
-
-   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootswatch/4.5.2/cosmo/bootstrap.min.css" />
-   <script src= "https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" ></script>
-
+	<meta charset="ISO-8859-1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search and Table</title>
+    <link rel="stylesheet" type="text/css" href="style.css"> <!-- Link to separate CSS file -->
 </head>
+
 <body>
-<div align="center">
+	<div class="container">
+		<div class="search-container">
+			<input type="text" placeholder="Search..." class="search-bar">
+			<button type="submit" class="search-button">Search</button>
+		</div>
+	</div>
 
-    <h1>Search Employee</h1>
-    <br />
-     <div class="col-sm-4">
-     
-	<form action="#" th:action="@{/search}" th:object="${employee}" method="post">
-        <div alight="left">
-            <tr>
-                <label class="form-label" >Employee ID</label>
-                <td>
-                    <input type="text" th:field="*{id}" class="form-control" placeholder="Employee ID" />
-                </td>
-            </tr>
-        </div>   
-
-            <br>
-            <tr>
-            <td colspan="2"><button type="submit" class="btn btn-info">Search</button> </td>
-            </tr>
-            
-            
-            <div alight="left">
-            <tr>
-                <label class="form-label" >Employee Name</label>
-                <td>   
-                    <input type="text" th:field="${employee.ename}" class="form-control" placeholder="Employee Name" />
-                </td>
-            </tr>
-         </div>   
-    </form>
-</div>
 </body>
+
 </html>

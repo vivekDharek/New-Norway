@@ -58,6 +58,11 @@ public class SAD {
     public List<SRS> getRealizesTo() {
         return realizesTo;
     }
+	public void setRealizesTo(List<SRS> realizesTo) {
+		this.realizesTo = realizesTo;
+	}
 
+    
+    
 	
 }

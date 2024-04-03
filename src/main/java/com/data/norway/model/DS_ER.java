@@ -73,4 +73,9 @@ public class DS_ER {
 	public List<SSRS_DS> getVal() {
 		return validatesTo;
 	}
+	
+	public void setVal(List<SSRS_DS> ssrs_ds) {
+		validatesTo = ssrs_ds;
+	}
+	
 }
