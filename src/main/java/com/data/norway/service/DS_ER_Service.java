@@ -14,6 +14,5 @@ public interface DS_ER_Service {
 	List<DS_ER_DTO> findByID(String id);
 	Optional<DS_ER> findRel(String id);
 	List<Map<String, Object>> findRelOptional(String id);
-	//List<Set<String>> findRelOptional(String id);
-	//ArrayList<String> findRelOptional(String id);
+	//List<Object> findRelOptional(String id);
 }

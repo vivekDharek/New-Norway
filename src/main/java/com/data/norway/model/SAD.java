@@ -19,10 +19,10 @@ public class SAD {
     String req_origin;
 
     @Relationship(type = "realizes")
-    List<SRS> realizesTo =  new ArrayList<SRS>();
+    List<SRS> realizedTo =  new ArrayList<SRS>();
 
     public SAD() {
-        this.realizesTo = new ArrayList<SRS>();
+        this.realizedTo = new ArrayList<SRS>();
     }
     public String getId() {
         return id;
@@ -56,10 +56,10 @@ public class SAD {
         this.req_origin = req_origin;
     }
     public List<SRS> getRealizesTo() {
-        return realizesTo;
+        return realizedTo;
     }
 	public void setRealizesTo(List<SRS> realizesTo) {
-		this.realizesTo = realizesTo;
+		this.realizedTo = realizesTo;
 	}
 
     

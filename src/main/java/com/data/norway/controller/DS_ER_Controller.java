@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -33,16 +34,15 @@ public class DS_ER_Controller {
 
 	/*@GetMapping(value = "/ds_er/{id}/rel")
 	//@ResponseBody
-	public String byIdrel(@PathVariable("id") String id, Model model){
+	public List<DS_ER> byIdrel(@PathVariable("id") String id, Model model){
 		Optional<DS_ER> values = ds_er_service.findRel(id);
 		List<DS_ER> jsonData = values.stream().collect(Collectors.toList());
 		//System.out.println(valuesList.size());
 		model.addAttribute("jsonData", jsonData);
-		return "tree";
+		return jsonData;
 	}*/
 	
 	@GetMapping(value = "/ds_er/{id}/rel")
-	//@ResponseBody
 	public String byIdrel(@PathVariable("id") String id, Model model){
 		Optional<DS_ER> values = ds_er_service.findRel(id);
 		List<DS_ER> jsonData = values.stream().collect(Collectors.toList());
@@ -50,7 +50,6 @@ public class DS_ER_Controller {
 		for(DS_ER dser : jsonData) {
 			tempList.add(dser);
 			for (Object obj : tempList) {
-	            // Check the type of the object using instanceof and cast accordingly
 				DS_ER dsER = (DS_ER) obj;
 				List<SSRS_DS> tempValList = dsER.getVal();
 				dsER.setVal(null);
@@ -76,25 +75,22 @@ public class DS_ER_Controller {
 				}
 	        }
 		}
-		
-		//System.out.println(valuesList.size());
-		//model.addAttribute("tempList", tempList);
 		return "tree";
 	}
 	
 	@GetMapping(value = "/ds_er/{id}/rel-optional")
-	public List<Map<String, Object>> findRel(@PathVariable("id") String id, Model model) {
-		List<Map<String, Object>> listSet = ds_er_service.findRelOptional(id);
+	public String findRel(@PathVariable("id") String id, Model model) {
+		List<Map<String,Object>> jsonData = ds_er_service.findRelOptional(id);
 		//List<String> valuesList = values.stream().collect(Collectors.toList());
-		model.addAttribute("jsonData", listSet);
-		return listSet;
+		model.addAttribute("jsonData", jsonData);
+		return "tree";
 	}
 	
-	@GetMapping(value = "/ds_er/{id}")
-	public String byId(@PathVariable("id") String id, Model model){
-		List<DS_ER_DTO> ds = ds_er_service.findByID(id);
-		model.addAttribute("ds", ds);
-		return "ds-er";
+	@GetMapping(value = "/ds_er/")
+	public List<DS_ER_DTO> byId(@PathVariable String id, Model model){
+		List<DS_ER_DTO> jsonData = ds_er_service.findByID(id);
+		model.addAttribute("jsonData", jsonData);
+		return jsonData;
 	}
 
 }

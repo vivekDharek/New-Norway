@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Export Nested Tables Data</title>
+	<!-- Include FileSaver.js library -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+</head>
+
+<body>
+	<div id="container">
+		<div class="table-container">
+			<table>
+				<thead>
+					<tr>
+						<th>obj_text</th>
+						<th>req_forwarding</th>
+						<th>id</th>
+						<th>req_type</th>
+						<th>stage</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>The Diagnostic System shall monitor and log the values, statuses and performance of the fire
+							alarm system and raise alarms in case of deviation or failure.
+
+							Note: The Security Monitoring and Logging Description of the Signalling System
+							[REF:GA_SAD_4253] presents details on monitoring and logging information.
+
+							Security-related equipment for example are,
+							climate control, such as ventilation and heating,
+							physical access control,
+							fire alarm or
+							burglar alarm.
+
+							Security-related audit information reported on the fire alarm system to the monitoring and
+							logging systems can be of the categories (with respect to IEC 62443 3-3 SL3 SR 2.8),
+							control system events and
+							configuration changes.
+						</td>
+						<td>SSRS_Diagnostic System</td>
+						<td>GA_SAD_2652</td>
+						<td>DEF</td>
+						<td>Stage 1
+							Stage 2
+							Stage 3</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div class="table-container">
+			<table>
+				<thead>
+					<tr>
+						<th>obj_text</th>
+						<th>req_forwarding</th>
+						<th>id</th>
+						<th>req_type</th>
+						<th>stage</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>The Diagnostic System shall monitor and log the values, statuses and performance of the fire
+							alarm system and raise alarms in case of deviation or failure.
+
+							Note: The Security Monitoring and Logging Description of the Signalling System
+							[REF:GA_SAD_4253] presents details on monitoring and logging information.
+
+							Security-related equipment for example are,
+							climate control, such as ventilation and heating,
+							physical access control,
+							fire alarm or
+							burglar alarm.
+
+							Security-related audit information reported on the fire alarm system to the monitoring and
+							logging systems can be of the categories (with respect to IEC 62443 3-3 SL3 SR 2.8),
+							control system events and
+							configuration changes.
+						</td>
+						<td>SSRS_Diagnostic System</td>
+						<td>GA_SAD_2652</td>
+						<td>DEF</td>
+						<td>Stage 1
+							Stage 2
+							Stage 3</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<button onclick="exportTables()">Export Tables Data to text</button>
+	<button onclick="exportTablesToWord()">Export Tables Data To Doc</button>
+	<button onclick="exportTablesToExcel()">Export Tables Data to excel</button>
+
+	<script>
+		function exportTables() {
+			// Get all tables within the 'container' div
+			var tables = document.querySelectorAll('#container table');
+
+			// Initialize variable to store concatenated table data
+			var allTablesData = '';
+
+			// Iterate over each table
+			tables.forEach(function (table) {
+				// Extract the data from each table
+				var tableData = '';
+				for (var i = 0; i < table.rows.length; i++) {
+					for (var j = 0; j < table.rows[i].cells.length; j++) {
+						tableData += table.rows[i].cells[j].innerText + '\t';
+					}
+					tableData += '\n';
+				}
+				// Concatenate the data to allTablesData
+				allTablesData += tableData;
+			});
+
+			// Create a Blob containing all table data
+			var blob = new Blob([allTablesData], {type: 'text/plain'});
+
+			// Save the Blob as a file using FileSaver.js
+			saveAs(blob, 'exported_tables_data.txt');
+		}
+	</script>
+	
+	<script>
+        function exportTablesToWord() {
+            var tables = document.querySelectorAll('#container table');
+            var doc = new docx.Document();
+
+            tables.forEach(function(table) {
+                var rows = table.rows;
+                var tableRows = [];
+                for (var i = 0; i < rows.length; i++) {
+                    var cells = rows[i].cells;
+                    var rowCells = [];
+                    for (var j = 0; j < cells.length; j++) {
+                        rowCells.push(new docx.TextRun(cells[j].innerText));
+                    }
+                    tableRows.push(new docx.TableRow({ children: rowCells }));
+                }
+                doc.addSection({ children: [new docx.Table({ rows: tableRows })] });
+            });
+
+            var packer = new docx.Packer();
+            packer.toBlob(doc).then(blob => {
+                saveAs(blob, 'exported_tables_data.docx');
+            });
+        }
+    </script>
+    
+    <script>
+        function exportTablesToExcel() {
+            var tables = document.querySelectorAll('#container table');
+            var wb = XLSX.utils.book_new();
+
+            tables.forEach(function(table, index) {
+                var ws = XLSX.utils.table_to_sheet(table);
+                XLSX.utils.book_append_sheet(wb, ws, 'Table ' + (index + 1));
+            });
+
+            var wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+            var blob = new Blob([wbout], { type: 'application/octet-stream' });
+            saveAs(blob, 'exported_tables_data.xlsx');
+        }
+    </script>
+    
+</body>
+
+</html>

@@ -6,15 +6,109 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Search and Table</title>
     <link rel="stylesheet" type="text/css" href="style.css"> <!-- Link to separate CSS file -->
+    <style>
+		.table-container {
+			flex: 1;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		}
+
+		table {
+			border-collapse: collapse;
+			width: 80%;
+			border: 1px solid #ddd;
+		}
+
+		th,
+		td {
+			width: 13%;
+			padding: 8px;
+			text-align: left;
+			border-bottom: 1px solid #ddd;
+		}
+
+		th {
+			background-color: #f2f2f2;
+		}
+
+		tr:nth-child(even) {
+			background-color: #f2f2f2;
+		}
+
+		tr:hover {
+			background-color: #ddd;
+		}
+	</style>
 </head>
 
 <body>
-	<div class="container">
-		<div class="search-container">
-			<input type="text" placeholder="Search..." class="search-bar">
-			<button type="submit" class="search-button">Search</button>
-		</div>
+	<div>
+        <input type="text" id="searchInput" placeholder="Enter search query">
+        <button onclick="search()">Search</button>
+    </div>
+    
+    <script th:inline="javascript">
+		/*<![CDATA[*/
+		var jsonData = /*[[${jsonData}]]*/ '[]'; // Assuming jsonData is the data you want to pass from the controller
+
+		/*]]>*/
+	</script>
+	
+	<div id="tb-container">
+		
 	</div>
+	
+	<script>
+		function createTable(data, parentElement) {
+
+			Object.values(data).forEach(function (value) {
+				alert(value)
+				var tableContainer = document.createElement('div');
+				tableContainer.classList.add('table-container');
+
+				var table = document.createElement('table');
+
+				var header = table.createTHead();
+				var row = header.insertRow();
+				Object.keys(value).forEach(function (key) {
+					alert(key)//Attribute names
+
+					var th = document.createElement('th');
+					th.textContent = key;
+					row.appendChild(th);
+				});
+				var tbody = document.createElement('tbody');
+				table.appendChild(tbody);
+
+				var row = tbody.insertRow();
+				Object.values(value).forEach(function (k) {
+					//alert(k)//Data for that attribute
+					var cell = row.insertCell();
+					cell.textContent = k;
+				});
+				tableContainer.appendChild(table);
+				parentElement.appendChild(tableContainer);
+			});
+		}
+		
+		var container = document.getElementById('tb-container');
+		
+		function search() {
+				var query = $('#searchInput').val();
+				$.ajax({
+					type: 'GET',
+					url: '/ds_er/',
+					data: {query: query},
+					success: function (data) {
+						createTable(data);
+					},
+					error: function (xhr, status, error) {
+						console.error('Error:', error);
+					}
+    });
+}
+	</script>
 
 </body>
 
