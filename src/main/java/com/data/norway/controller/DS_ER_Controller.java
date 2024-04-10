@@ -86,11 +86,11 @@ public class DS_ER_Controller {
 		return "tree";
 	}
 	
-	@GetMapping(value = "/ds_er/")
-	public List<DS_ER_DTO> byId(@PathVariable String id, Model model){
+	@GetMapping(path = "/")
+	public String byId(String id, Model model){
 		List<DS_ER_DTO> jsonData = ds_er_service.findByID(id);
 		model.addAttribute("jsonData", jsonData);
-		return jsonData;
+		return "home";
 	}
 
 }

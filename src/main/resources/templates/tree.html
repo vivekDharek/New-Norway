@@ -60,84 +60,7 @@
 
 		/*]]>*/
 	</script>
-	<!--<script>
-
-		function createTable(data, parentElement) {
-			var tableContainer = document.createElement('div');
-			tableContainer.classList.add('table-container');
-
-			var table = document.createElement('table');
-
-			var header = table.createTHead();
-			var row = header.insertRow();
-			Object.keys(data).forEach(function (key) {
-				var th = document.createElement('th');
-				th.textContent = key;
-				row.appendChild(th);
-			});
-
-			var tbody = document.createElement('tbody');
-			table.appendChild(tbody);
-
-			var row = tbody.insertRow();
-			Object.values(data).forEach(function (value) {
-				var cell = row.insertCell();
-				if (typeof value === 'object') {
-					createTable(value, cell);
-				} else {
-					cell.textContent = value;
-				}
-			});
-
-			tableContainer.appendChild(table);
-			parentElement.appendChild(tableContainer);
-		}
-
-		var container = document.getElementById('container');
-		createTable(jsonData, container);
-	</script>-->
-
-	<!-- For API /ds_er/{id}/rel-optional -->
-	<!--<script>
-		function createTable(data, parentElement) {
-			
-			Object.values(data).forEach(function (value) {
-				//alert(value)
-				Object.values(value).forEach(function (key) {
-					//alert(key)
-					var tableContainer = document.createElement('div');
-					tableContainer.classList.add('table-container');
-
-					var table = document.createElement('table');
-
-					var header = table.createTHead();
-					var row = header.insertRow();
-
-					Object.keys(key).forEach(function (k) {
-
-						var th = document.createElement('th');
-						th.textContent = k;
-						row.appendChild(th);
-
-					});
-					var tbody = document.createElement('tbody');
-					table.appendChild(tbody);
-
-					var row = tbody.insertRow();
-					Object.values(key).forEach(function (value) {
-						var cell = row.insertCell();
-						cell.textContent = value;
-					});
-					tableContainer.appendChild(table);
-					parentElement.appendChild(tableContainer);
-				});
-
-			});
-		}
-
-		var container = document.getElementById('container');
-		createTable(jsonData, container);
-	</script>-->
+	
 	<script>
 		function createTable(data, parentElement) {
 
@@ -221,49 +144,9 @@
 			// Save the Blob as a file using FileSaver.js
 			saveAs(blob, 'exported_tables_data.txt');
 		}
-		
-		/*function exportTablesToExcel() {
-            var tables = document.querySelectorAll('#container table');
-            var wb = XLSX.utils.book_new();
-
-            tables.forEach(function(table, index) {
-                var ws = XLSX.utils.table_to_sheet(table);
-                XLSX.utils.book_append_sheet(wb, ws, 'Table ' + (index + 1));
-            });
-
-            var wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
-            var blob = new Blob([wbout], { type: 'application/octet-stream' });
-            saveAs(blob, 'exported_tables_data.xlsx');
-        }
-        
-        function exportTablesToWord() {
-            var tables = document.querySelectorAll('#container table');
-            var doc = new docx.Document();
-
-            tables.forEach(function(table) {
-                var rows = table.rows;
-                var tableRows = [];
-                for (var i = 0; i < rows.length; i++) {
-                    var cells = rows[i].cells;
-                    var rowCells = [];
-                    for (var j = 0; j < cells.length; j++) {
-                        rowCells.push(new docx.TextRun(cells[j].innerText));
-                    }
-                    tableRows.push(new docx.TableRow({ children: rowCells }));
-                }
-                doc.addSection({ children: [new docx.Table({ rows: tableRows })] });
-            });
-
-            var packer = new docx.Packer();
-            packer.toBlob(doc).then(blob => {
-                saveAs(blob, 'exported_tables_data.docx');
-            });
-        }*/
-		
 	</script>
-
-
-	<!-- For API : /ds_er/{id}/rel
+		
+	<!--For API : /ds_er/{id}/rel 
 	<script>
 		function createTable(data, parentElement) {
 
