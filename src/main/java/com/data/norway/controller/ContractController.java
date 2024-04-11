@@ -25,12 +25,5 @@ public class ContractController {
 	public int nodeCount() {
 		return contractService.nodeCount();
 	}
-	
-	@GetMapping("/contracts/{id}")
-	public String getById(@PathVariable("id") String id, Model model){
-		List<ContractDTO> contract = contractService.findbyID(id);
-		model.addAttribute("contract", contract);
-		return "contract";
-	}
 
 }
