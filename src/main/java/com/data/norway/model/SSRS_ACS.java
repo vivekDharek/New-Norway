@@ -1,0 +1,84 @@
+package com.data.norway.model;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.data.neo4j.core.schema.Id;
+import org.springframework.data.neo4j.core.schema.Node;
+import org.springframework.data.neo4j.core.schema.Relationship;
+
+@Node
+public class SSRS_ACS {
+	
+	@Id
+	private String id;
+	private String req_type;
+	private String stage;
+	private String obj_text;
+	private String req_origin;
+	
+	@Relationship(type = "realizes")
+	List<SAD> realizedTo = new ArrayList<SAD>();
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String getReq_type() {
+		return req_type;
+	}
+
+	public void setReq_type(String req_type) {
+		this.req_type = req_type;
+	}
+
+	public String getStage() {
+		return stage;
+	}
+
+	public void setStage(String stage) {
+		this.stage = stage;
+	}
+
+	public String getObj_text() {
+		return obj_text;
+	}
+
+	public void setObj_text(String obj_text) {
+		this.obj_text = obj_text;
+	}
+
+	public String getReq_origin() {
+		return req_origin;
+	}
+
+	public void setReq_origin(String req_origin) {
+		this.req_origin = req_origin;
+	}
+
+	public List<SAD> getRealizedTo() {
+		return realizedTo;
+	}
+
+	public void setRealizedTo(List<SAD> realizedTo) {
+		this.realizedTo = realizedTo;
+	}
+
+	public SSRS_ACS(String id, String req_type, String stage, String obj_text, String req_origin,
+			List<SAD> realizedTo) {
+		super();
+		this.id = id;
+		this.req_type = req_type;
+		this.stage = stage;
+		this.obj_text = obj_text;
+		this.req_origin = req_origin;
+		this.realizedTo = realizedTo;
+	}
+	
+	
+
+}

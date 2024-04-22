@@ -7,24 +7,13 @@
 	<title>Search and Table</title>
 	<link rel="stylesheet" type="text/css" href="style.css"> <!-- Link to separate CSS file -->
 
-
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
-		integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
-	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"
-		integrity="sha384-eMNCOe7tC1doHpGoWe/6oMVemdAVTMs2xqW4mwXrXsW0L84Iytr2wi5v2QjrP/xp"
-		crossorigin="anonymous"></script>
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.min.js"
-		integrity="sha384-cn7l7gDp0eyniUwwAZgrzD06kc/tftFf19TOAs2zVinnD/C7E91j9yyk5//jjpt/"
-		crossorigin="anonymous"></script>
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
 </head>
 
 <body class="list">
 
 	<script th:inline="javascript">
 		/*<![CDATA[*/
-		var jsonData = /*[[${jsonData}]]*/ '[]'; // Assuming jsonData is the data you want to pass from the controller
+		var jsonData = /*[[${jsonData}]]*/ '[]';
 
 		/*]]>*/
 	</script>
@@ -40,8 +29,8 @@
 			</ul>
 		</nav>
 	</header>
-	
-	
+
+
 
 	<div class="data-container">
 		<form th:action="@{/}" method="get">
@@ -49,13 +38,14 @@
 			<button class="button-10" role="button">Search</button>
 		</form>
 	</div>
-	<div id="tb-containerr">
 
-	</div>
 
 	<div class="data-container-main">
 		<div class="left-panel">
-				
+			<button id="myButton">Invoke Controller</button>
+			<div id="tbcontainer">
+
+			</div>
 		</div>
 		<div class="right-panel">
 			<p>
@@ -66,7 +56,6 @@
 
 	<script>
 		function createTable(data, parentElement) {
-
 			Object.values(data).forEach(function (value) {
 				//alert(value)
 				var tableContainer = document.createElement('div');
@@ -96,11 +85,34 @@
 				parentElement.appendChild(tableContainer);
 			});
 		}
-		var container = document.getElementById('tb-container');
+		var container = document.getElementById('tbcontainer');
 		createTable(jsonData, container);
+
+		const button = document.getElementById('myButton');
+
+		button.addEventListener('click', function () {
+			const id = 'DS_ER_ISO9001_7049'; // Replace '123' with your actual ID value
+
+			// Construct the URL with the ID parameter
+			const url = `/rel?id=${id}`;
+			window.location.href = url;
+
+			// Send AJAX request to the Spring Boot controller
+			fetch(url)
+				.then(response => {
+					if (response.ok) {
+						console.log('Controller invoked successfully!');
+					} else {
+						console.error('Error invoking controller:', response.statusText);
+					}
+				})
+				.catch(error => {
+					console.error('Fetch error:', error);
+				});
+		});
 	</script>
 
-	<script src="js/script.js"></script>
+	<!--<script src="js/script.js"></script>-->
 
 </body>
 

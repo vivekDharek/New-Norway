@@ -36,11 +36,22 @@ public class DS_ER_Controller {
 		this.contractService = contractService;
 	}
 	
-	@GetMapping(value = "/ds_er/{id}/rel-optional")
-	public String findRel(@PathVariable("id") String id, Model model) {
+	@GetMapping(value = "/rel")
+	public String findRel(@RequestParam("id") String id, Model model) {
 		List<Map<String,Object>> jsonData = ds_er_service.findRelOptional(id);
 		//List<String> valuesList = values.stream().collect(Collectors.toList());
+		System.out.println("Controller invoked successfully with ID: " + id);
 		model.addAttribute("jsonData", jsonData);
+		
 		return "tree";
 	}
+	
+	/*
+	 * @GetMapping(path = "/ds_er/{id}") public List<Map<String,Object>>
+	 * findRel(@PathVariable("id") String id, Model model) {
+	 * List<Map<String,Object>> jsonData = ds_er_service.findRelOptional(id);
+	 * System.out.println("ID = "+id); //List<String> valuesList =
+	 * values.stream().collect(Collectors.toList()); model.addAttribute("jsonData",
+	 * jsonData); return jsonData; }
+	 */
 }

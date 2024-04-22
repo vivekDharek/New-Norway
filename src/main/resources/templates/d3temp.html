@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Round Node Structure with D3.js</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+        .node {
+            cursor: pointer;
+            stroke-width: 2px;
+        }
+        .link {
+            fill: none;
+            stroke: #555;
+            stroke-width: 2px;
+        }
+    </style>
+</head>
+<body>
+    <svg width="800" height="600"></svg>
+
+    <script>
+        // Sample data
+        const data = {
+            "nodes": [
+                { "id": "A", "name": "Node A", "color": "red" },
+                { "id": "B", "name": "Node B", "color": "blue" },
+                { "id": "C", "name": "Node C", "color": "green" }
+            ],
+            "links": [
+                { "source": "A", "target": "B" },
+                { "source": "B", "target": "C" }
+            ]
+        };
+
+        // Create SVG element
+        const svg = d3.select("svg");
+
+        // Create simulation
+        const simulation = d3.forceSimulation(data.nodes)
+            .force("link", d3.forceLink(data.links).id(d => d.id))
+            .force("charge", d3.forceManyBody().strength(-100))
+            .force("center", d3.forceCenter(400, 300));
+
+        // Add links
+        const link = svg.selectAll(".link")
+            .data(data.links)
+            .enter().append("line")
+            .attr("class", "link");
+
+        // Add nodes
+        const node = svg.selectAll(".node")
+            .data(data.nodes)
+            .enter().append("circle")
+            .attr("class", "node")
+            .attr("r", 20)
+            .attr("fill", d => d.color)
+            .call(drag(simulation));
+
+        // Add node labels
+        const label = svg.selectAll(".label")
+            .data(data.nodes)
+            .enter().append("text")
+            .attr("class", "label")
+            .text(d => d.name)
+            .attr("dy", -25)
+            .attr("text-anchor", "middle");
+
+        // Update node positions
+        simulation.on("tick", () => {
+            link.attr("x1", d => d.source.x)
+                .attr("y1", d => d.source.y)
+                .attr("x2", d => d.target.x)
+                .attr("y2", d => d.target.y);
+
+            node.attr("cx", d => d.x)
+                .attr("cy", d => d.y);
+
+            label.attr("x", d => d.x)
+                .attr("y", d => d.y);
+        });
+
+        // Drag function
+        function drag(simulation) {
+            function dragstarted(event, d) {
+                if (!event.active) simulation.alphaTarget(0.3).restart();
+                d.fx = d.x;
+                d.fy = d.y;
+            }
+
+            function dragged(event, d) {
+                d.fx = event.x;
+                d.fy = event.y;
+            }
+
+            function dragended(event, d) {
+                if (!event.active) simulation.alphaTarget(0);
+                d.fx = null;
+                d.fy = null;
+            }
+
+            return d3.drag()
+                .on("start", dragstarted)
+                .on("drag", dragged)
+                .on("end", dragended);
+        }
+    </script>
+</body>
+</html>
+
+
+
+<div id="container">
+	<div class="table-container">
+		<table>
+			<thead>
+				<tr>
+					<th>obj_text</th>
+					<th>req_type</th>
+					<th>id</th>
+					<th>stage</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>The interface between Diagnostic System and Digital I/O System shall be implemented as specified
+						in interface specification [REF:SSRS_DS_2520].</td>
+					<td>DEF</td>
+					<td>SSRS_DS_2538</td>
+					<td>Stage 1
+						Stage 2
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div><br>
+	<div class="table-container">
+		<table>
+			<thead>
+				<tr>
+					<th>obj_text</th>
+					<th>req_forwarding</th>
+					<th>req_type</th>
+					<th>id</th>
+					<th>stage</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>The interface between Diagnostic System and Digital IO System shall be implemented as specified
+						in interface specification [REF:GA_SAD_3611].</td>
+					<td>SSRS_Diagnostic System
+						SSRS_Dig I_O System</td>
+					<td>DEF</td>
+					<td>GA_SAD_3625</td>
+					<td>Stage 1
+						Stage 2</td>
+				</tr>
+			</tbody>
+		</table>
+	</div><br>
+	<div class="table-container">
+		<table>
+			<thead>
+				<tr>
+					<th>obj_text</th>
+					<th>req_forwarding</th>
+					<th>req_type</th>
+					<th>id</th>
+					<th>stage</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>The Signalling System shall implement the interface between Diagnostic System and Subsystems
+						according to EULYNX SDI protocols where this is defined within an agreed EULYNX Baseline Set.
+
+						Note 1: For stages 1 and 2 EULYNX Baseline Set 2 [REF:GA_SRS_2007] is used.
+
+						Note 2: Currently the interface specifications are based on [REF:GA_SRS_1836] (SDI-P),
+						[REF:GA_SRS_1841] (SDI-LS), [REF:GA_SRS_1846] (SDI-TDS), [REF:GA_SRS_1851] (SDI-IO).</td>
+					<td>GA_SAD
+						EXT_TechnicalSystemGenericInterfaceDescription</td>
+					<td>DEF</td>
+					<td>GA_SRS_38</td>
+					<td>Stage 1
+						Stage 2
+						Stage 3</td>
+				</tr>
+			</tbody>
+		</table>
+	</div><br>
+	<div class="table-container">
+		<table>
+			<thead>
+				<tr>
+					<th>obj_text</th>
+					<th>req_title</th>
+					<th>req_verifaction</th>
+					<th>req_forwarding</th>
+					<th>external_id</th>
+					<th>req_type</th>
+					<th>id</th>
+					<th>cust_comments</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>The interface between diagnostic system and each monitored object or subsystem shall be
+						implemented according to EULYNX SDI protocols where this is defined within an agreed EULYNX
+						Baseline Set.</td>
+					<td>Interface to diagnostic system according to SDI</td>
+					<td>OK</td>
+					<td>AdditionalSources
+						GA_SRS</td>
+					<td>ENI-SS-LF-IR-55</td>
+					<td>DEF</td>
+					<td>CON_ERTMS_TRA_2884</td>
+					<td>Interface SI 15 in architecture drawing.</td>
+				</tr>
+			</tbody>
+		</table>
+	</div><br>
+</div>
+
+

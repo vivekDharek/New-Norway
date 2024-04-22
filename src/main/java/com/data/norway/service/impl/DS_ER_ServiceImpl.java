@@ -56,12 +56,12 @@ public class DS_ER_ServiceImpl implements DS_ER_Service {
 		return ds_ers;
 	}
 
-	/*@Override
+	@Override
 	public List<Map<String, Object>> findRelOptional(String id) {
 		List<Map<String, Object>> resultList = new ArrayList<>();
 		try (Session session = driver.session()) {
 			
-			Result result = session.run("MATCH p=(n:DS_ER{id:$id})-[*]->(m) return properties(m)", Values.parameters("id", id));
+			Result result = session.run("MATCH p=(n:DS_ER{id:$id})-[*]->(m) return properties(n), collect(properties(m))", Values.parameters("id", id));
 			while(result.hasNext()) {
 				Record record = result.next();
 				System.out.println("Record: "+record);
@@ -72,24 +72,23 @@ public class DS_ER_ServiceImpl implements DS_ER_Service {
 			e.printStackTrace();
 		}
 		return resultList;
-	}*/
-	
-	@Override
-	public List<Map<String,Object>> findRelOptional(String id) {
-		List<Map<String,Object>> resultList = new ArrayList<>();
-		try (Session session = driver.session()) {
-			
-			Result result = session.run("MATCH p=(n:DS_ER{id:$id})-[r*]->(m) return properties(n), collect(properties(m))", Values.parameters("id", id));
-			while(result.hasNext()) {
-				Record record = result.next();
-				//System.out.println("Record: "+record);
-				Map<String, Object> nodeData = record.asMap();
-				resultList.add(nodeData);
-			}
-		}catch (Exception e) {
-			e.printStackTrace();
-		}
-		return resultList;
 	}
+	
+	/*
+	 * @Override public List<Map<String,Object>> findRelOptional(String id) {
+	 * List<Map<String,Object>> resultList = new ArrayList<>(); try (Session session
+	 * = driver.session()) {
+	 * 
+	 * //Result result = session.
+	 * run("MATCH p=(n:DS_ER{id:$id})-[r*]->(m) return properties(n), collect(properties(m))"
+	 * , Values.parameters("id", id)); Result result =
+	 * session.run("MATCH p=(n:DS_ER{id:'DS_ER_ISO9001_7049'})-[r*]->(m)\r\n" +
+	 * "unwind relationships(p) as rela\r\n" +
+	 * "return properties(n),type(rela), properties(m)", Values.parameters("id",
+	 * id)); while(result.hasNext()) { Record record = result.next();
+	 * //System.out.println("Record: "+record); Map<String, Object> nodeData =
+	 * record.asMap(); resultList.add(nodeData); } }catch (Exception e) {
+	 * e.printStackTrace(); } return resultList; }
+	 */
 	
 }
