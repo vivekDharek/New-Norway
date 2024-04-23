@@ -27,6 +27,14 @@ public class SearchController {
 	private PS_ER_Service ps_er_service;
 	private SSRS_ACS_Service ssrs_acs_service;
 	private SSRS_AMAC_Service ssrs_amac_service;
+	private SSRS_SC_Service ssrs_sc_service;
+	private SSRS_COM_Service ssrs_com_service;
+	private SSRS_CSF_Service ssrs_csf_service;
+	private SSRS_DNS_Service ssrs_dns_service;
+	private SSRS_JRS_Service ssrs_jrs_service;
+	private SSRS_KMS_Service ssrs_kms_service;
+	private SSRS_PS_Service ssrs_ps_service;
+	private SAD_Service sad_service;
 	
 	public SearchController(DS_ER_Service ds_er_service, 
 			ContractService contractService,
@@ -40,7 +48,15 @@ public class SearchController {
 			KMS_ER_Service kms_er_service,
 			PS_ER_Service ps_er_service,
 			SSRS_ACS_Service ssrs_acs_service,
-			SSRS_AMAC_Service ssrs_amac_service) {
+			SSRS_AMAC_Service ssrs_amac_service,
+			SSRS_SC_Service ssrs_sc_service,
+			SSRS_COM_Service ssrs_com_service,
+			SSRS_CSF_Service ssrs_csf_service,
+			SSRS_DNS_Service ssrs_dns_service,
+			SSRS_JRS_Service ssrs_jrs_service,
+			SSRS_KMS_Service ssrs_kms_service,
+			SSRS_PS_Service ssrs_ps_service,
+			SAD_Service sad_service) {
 		super();
 		this.ds_er_service = ds_er_service;
 		this.contractService = contractService;
@@ -55,6 +71,14 @@ public class SearchController {
 		this.ps_er_service = ps_er_service;
 		this.ssrs_acs_service = ssrs_acs_service;
 		this.ssrs_amac_service = ssrs_amac_service;
+		this.ssrs_sc_service = ssrs_sc_service;
+		this.ssrs_com_service =  ssrs_com_service;
+		this.ssrs_csf_service = ssrs_csf_service;
+		this.ssrs_dns_service = ssrs_dns_service;
+		this.ssrs_jrs_service = ssrs_jrs_service;
+		this.ssrs_kms_service = ssrs_kms_service;
+		this.ssrs_ps_service = ssrs_ps_service;
+		this.sad_service = sad_service;
 	}
 
 	@GetMapping(path = "/")
@@ -112,6 +136,38 @@ public class SearchController {
 			return "temphtml";
 		}else if(id.startsWith("SSRS_AMAC_")){
 			List<SSRS_AMAC_DTO> jsonData = ssrs_amac_service.findById(id);
+			model.addAttribute("jsonData", jsonData);
+			return "temphtml";
+		}else if(id.startsWith("SSRS_SC_")){
+			List<SSRS_SC_DTO> jsonData = ssrs_sc_service.findById(id);
+			model.addAttribute("jsonData", jsonData);
+			return "temphtml";
+		}else if(id.startsWith("SSRS_ComN_")){
+			List<SSRS_COM_DTO> jsonData = ssrs_com_service.findById(id);
+			model.addAttribute("jsonData", jsonData);
+			return "temphtml";
+		}else if(id.startsWith("SSRS_CSF_")){
+			List<SSRS_CSF_DTO> jsonData = ssrs_csf_service.findById(id);
+			model.addAttribute("jsonData", jsonData);
+			return "temphtml";
+		}else if(id.startsWith("SSRS_DNS_")){
+			List<SSRS_DNS_DTO> jsonData = ssrs_dns_service.findById(id);
+			model.addAttribute("jsonData", jsonData);
+			return "temphtml";
+		}else if(id.startsWith("SSRS_JRS_")){
+			List<SSRS_JRS_DTO> jsonData = ssrs_jrs_service.findById(id);
+			model.addAttribute("jsonData", jsonData);
+			return "temphtml";
+		}else if(id.startsWith("SSRS_KMS_")){
+			List<SSRS_KMS_DTO> jsonData = ssrs_kms_service.findById(id);
+			model.addAttribute("jsonData", jsonData);
+			return "temphtml";
+		}else if(id.startsWith("SSRS_PS_")){
+			List<SSRS_PS_DTO> jsonData = ssrs_ps_service.findById(id);
+			model.addAttribute("jsonData", jsonData);
+			return "temphtml";
+		}else if(id.startsWith("GA_SAD_")){
+			List<SAD_DTO> jsonData = sad_service.findByID(id);
 			model.addAttribute("jsonData", jsonData);
 			return "temphtml";
 		}

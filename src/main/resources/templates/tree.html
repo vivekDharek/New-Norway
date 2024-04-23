@@ -50,7 +50,7 @@
 			</p>
 		</div>
 	</div>
-	
+
 	<script>
 		function createTable(data, parentElement) {
 
@@ -64,7 +64,7 @@
 						Object.values(key).forEach(function (k) {
 							generateTable(k, parentElement);
 						});
-					}else{
+					} else {
 						generateTable(key, parentElement); // for properties(n)
 					}
 
@@ -77,6 +77,22 @@
 			//alert(jData)
 			var tableContainer = document.createElement('div');
 			tableContainer.classList.add('table-container');
+
+			var button = document.createElement("button");
+
+			// Set button text
+			button.textContent = "Click me";
+
+			// Set button ID
+			button.id = jData["id"];
+
+			// Set button click event handler
+			button.onclick = function () {
+				alert(this.id);
+				//alert(jData["id"])
+			};
+
+			parentElement.appendChild(button);
 
 			var table = document.createElement('table');
 
@@ -103,6 +119,11 @@
 
 		var container = document.getElementById('tbcontainer');
 		createTable(jsonData, container);
+
+		function buttonAction(event) {
+			alert(event.target.id)
+		}
+
 	</script>
 
 	<script>

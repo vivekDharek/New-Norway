@@ -3,12 +3,9 @@ package com.data.norway.service.impl;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
 import org.neo4j.driver.*;
 import org.neo4j.driver.Record;
 import org.neo4j.driver.Values;
-import org.springframework.data.neo4j.core.Neo4jTemplate;
 import org.springframework.stereotype.Service;
 
 import com.data.norway.DTO.DS_ER_DTO;
@@ -61,7 +58,8 @@ public class DS_ER_ServiceImpl implements DS_ER_Service {
 		List<Map<String, Object>> resultList = new ArrayList<>();
 		try (Session session = driver.session()) {
 			
-			Result result = session.run("MATCH p=(n:DS_ER{id:$id})-[*]->(m) return properties(n), collect(properties(m))", Values.parameters("id", id));
+			Result result = 
+					session.run("MATCH p=(n:DS_ER{id:$id})-[*]->(m) return properties(n), collect(properties(m))", Values.parameters("id", id));
 			while(result.hasNext()) {
 				Record record = result.next();
 				System.out.println("Record: "+record);

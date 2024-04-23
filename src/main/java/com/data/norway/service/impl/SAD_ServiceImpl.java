@@ -1,19 +1,18 @@
 package com.data.norway.service.impl;
 
-import java.security.cert.CollectionCertStoreParameters;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collector;
+import java.util.*;
 import java.util.stream.Collectors;
 
-import org.neo4j.driver.Driver;
+import org.neo4j.driver.*;
+import org.springframework.stereotype.Service;
+import org.neo4j.driver.Record;
 
 import com.data.norway.DTO.SAD_DTO;
 import com.data.norway.model.SAD;
 import com.data.norway.repository.SAD_Repository;
 import com.data.norway.service.SAD_Service;
 
+@Service
 public class SAD_ServiceImpl implements SAD_Service {
 
 	
@@ -45,4 +44,22 @@ public class SAD_ServiceImpl implements SAD_Service {
 		return sad_dto;
 	}
 
+	@Override
+	public List<Map<String, Object>> getIncommingLinks(String id) {
+		List<Map<String, Object>> resultList = new ArrayList<>();
+		try (Session session = driver.session()) {
+			
+			Result result = 
+					session.run("MATCH p=(n:SAD{id:$id})<-[*]-(m) return properties(n), collect(properties(m))", Values.parameters("id", id));
+			while(result.hasNext()) {
+				Record record = result.next();
+				System.out.println("Record: "+record);
+				Map<String, Object> nodeData = record.asMap();
+				resultList.add(nodeData);
+			}
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		return resultList;
+	}
 }

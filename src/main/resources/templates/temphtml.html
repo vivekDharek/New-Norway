@@ -91,10 +91,11 @@
 		const button = document.getElementById('myButton');
 
 		button.addEventListener('click', function () {
-			const id = 'DS_ER_ISO9001_7049'; // Replace '123' with your actual ID value
-
+			//const id = 'DS_ER_ISO9001_7049'; // Replace '123' with your actual ID value
+			const id = 'GA_SAD_2911';
 			// Construct the URL with the ID parameter
-			const url = `/rel?id=${id}`;
+			//const url = `/rel?id=${id}`;
+			const url = '/incominglinks?id=' + id;
 			window.location.href = url;
 
 			// Send AJAX request to the Spring Boot controller
