@@ -50,7 +50,7 @@ public class SAD_ServiceImpl implements SAD_Service {
 		try (Session session = driver.session()) {
 			
 			Result result = 
-					session.run("MATCH p=(n:SAD{id:$id})<-[*]-(m) return properties(n), collect(properties(m))", Values.parameters("id", id));
+					session.run("MATCH p=(n{id:$id})<-[r:realizes]-(m) return properties(n), collect(properties(m))", Values.parameters("id", id));
 			while(result.hasNext()) {
 				Record record = result.next();
 				System.out.println("Record: "+record);

@@ -5,12 +5,14 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.neo4j.driver.Driver;
+import org.springframework.stereotype.Service;
 
 import com.data.norway.DTO.SRS_DTO;
 import com.data.norway.model.SRS;
 import com.data.norway.repository.SRS_Repository;
 import com.data.norway.service.SRS_Service;
 
+@Service
 public class SRS_ServiceImpl implements SRS_Service {
 
 	final Driver driver;

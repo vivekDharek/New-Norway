@@ -1,11 +1,13 @@
 package com.data.norway;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.data.norway.DTO.*;
@@ -35,6 +37,10 @@ public class SearchController {
 	private SSRS_KMS_Service ssrs_kms_service;
 	private SSRS_PS_Service ssrs_ps_service;
 	private SAD_Service sad_service;
+	private SRS_Service srs_service;
+	private SSRS_DS_Service ssrs_ds_service;
+	
+	private Links_Service links_service;
 	
 	public SearchController(DS_ER_Service ds_er_service, 
 			ContractService contractService,
@@ -56,7 +62,10 @@ public class SearchController {
 			SSRS_JRS_Service ssrs_jrs_service,
 			SSRS_KMS_Service ssrs_kms_service,
 			SSRS_PS_Service ssrs_ps_service,
-			SAD_Service sad_service) {
+			SAD_Service sad_service,
+			SRS_Service srs_service,
+			SSRS_DS_Service ssrs_ds_service,
+			Links_Service links_service) {
 		super();
 		this.ds_er_service = ds_er_service;
 		this.contractService = contractService;
@@ -79,99 +88,121 @@ public class SearchController {
 		this.ssrs_kms_service = ssrs_kms_service;
 		this.ssrs_ps_service = ssrs_ps_service;
 		this.sad_service = sad_service;
+		this.srs_service = srs_service;
+		this.ssrs_ds_service = ssrs_ds_service;
+		this.links_service = links_service;
 	}
+	
 
 	@GetMapping(path = "/")
 	public String byId(String id, Model model){
 		if(id == null) {
-			return "temphtml";
+			return "index";
 		}
 		else if(id.startsWith("DS_ER_ISO9001_")){
 			List<DS_ER_DTO> jsonData = ds_er_service.findByID(id);
 			model.addAttribute("jsonData", jsonData);
-			return "temphtml";
+			return "index";
 		}else if(id.startsWith("CON_ERTMS_TRA_")) {
 			List<ContractDTO> jsonData = contractService.findbyID(id);
 			model.addAttribute("jsonData", jsonData);
-			return "temphtml";
+			return "index";
 		}else if(id.startsWith("ACS_ER_ISO9001_")) {
 			List<ACS_ER_DTO> jsonData = acs_er_Service.findById(id);
 			model.addAttribute("jsonData", jsonData);
-			return "temphtml";
-		}else if(id.startsWith("AMAC_ER_ISO9001_")){
-			List<AMAC_ER_DTO> jsonData = amac_er_Service.findById(id);
+			return "index";
+		}else if(id.startsWith("SSRS_DS_")){
+			List<SSRS_DS_DTO> jsonData = ssrs_ds_service.findByID(id);
 			model.addAttribute("jsonData", jsonData);
-			return "temphtml";
+			return "index";
 		}else if(id.startsWith("CaC_ER_ISO9001_")){
 			List<CAC_ER_DTO> jsonData = cac_er_Service.findById(id);
 			model.addAttribute("jsonData", jsonData);
-			return "temphtml";
+			return "index";
 		}else if(id.startsWith("Com_Network_ER_ISO9001_")){
 			List<COM_NET_ER_DTO> jsonData = com_net_er_Service.findById(id);
 			model.addAttribute("jsonData", jsonData);
-			return "temphtml";
+			return "index";
 		}else if(id.startsWith("CSF_ER_ISO9001_")){
 			List<CSF_DTO> jsonData = csf_service.findById(id);
 			model.addAttribute("jsonData", jsonData);
-			return "temphtml";
+			return "index";
 		}else if(id.startsWith("ETCS_DNS_ER_ISO9001_")){
 			List<DNS_ER_DTO> jsonData = dns_er_service.findById(id);
 			model.addAttribute("jsonData", jsonData);
-			return "temphtml";
+			return "index";
 		}else if(id.startsWith("JRS_ER_ISO9001_")){
 			List<JRS_ER_DTO> jsonData = jrs_er_service.findById(id);
 			model.addAttribute("jsonData", jsonData);
-			return "temphtml";
+			return "index";
 		}else if(id.startsWith("KMS_ER_ISO9001_")){
 			List<KMS_ER_DTO> jsonData = kms_er_service.findById(id);
 			model.addAttribute("jsonData", jsonData);
-			return "temphtml";
+			return "index";
 		}else if(id.startsWith("PS_ER_ISO9001_")){
 			List<PS_ER_DTO> jsonData = ps_er_service.findById(id);
 			model.addAttribute("jsonData", jsonData);
-			return "temphtml";
+			return "index";
 		}else if(id.startsWith("SSRS_ACS_")){
 			List<SSRS_ACS_DTO> jsonData = ssrs_acs_service.findById(id);
 			model.addAttribute("jsonData", jsonData);
-			return "temphtml";
+			return "index";
 		}else if(id.startsWith("SSRS_AMAC_")){
 			List<SSRS_AMAC_DTO> jsonData = ssrs_amac_service.findById(id);
 			model.addAttribute("jsonData", jsonData);
-			return "temphtml";
+			return "index";
 		}else if(id.startsWith("SSRS_SC_")){
 			List<SSRS_SC_DTO> jsonData = ssrs_sc_service.findById(id);
 			model.addAttribute("jsonData", jsonData);
-			return "temphtml";
+			return "index";
 		}else if(id.startsWith("SSRS_ComN_")){
 			List<SSRS_COM_DTO> jsonData = ssrs_com_service.findById(id);
 			model.addAttribute("jsonData", jsonData);
-			return "temphtml";
+			return "index";
 		}else if(id.startsWith("SSRS_CSF_")){
 			List<SSRS_CSF_DTO> jsonData = ssrs_csf_service.findById(id);
 			model.addAttribute("jsonData", jsonData);
-			return "temphtml";
+			return "index";
 		}else if(id.startsWith("SSRS_DNS_")){
 			List<SSRS_DNS_DTO> jsonData = ssrs_dns_service.findById(id);
 			model.addAttribute("jsonData", jsonData);
-			return "temphtml";
+			return "index";
 		}else if(id.startsWith("SSRS_JRS_")){
 			List<SSRS_JRS_DTO> jsonData = ssrs_jrs_service.findById(id);
 			model.addAttribute("jsonData", jsonData);
-			return "temphtml";
+			return "index";
 		}else if(id.startsWith("SSRS_KMS_")){
 			List<SSRS_KMS_DTO> jsonData = ssrs_kms_service.findById(id);
 			model.addAttribute("jsonData", jsonData);
-			return "temphtml";
+			return "index";
 		}else if(id.startsWith("SSRS_PS_")){
 			List<SSRS_PS_DTO> jsonData = ssrs_ps_service.findById(id);
 			model.addAttribute("jsonData", jsonData);
-			return "temphtml";
+			return "index";
 		}else if(id.startsWith("GA_SAD_")){
 			List<SAD_DTO> jsonData = sad_service.findByID(id);
 			model.addAttribute("jsonData", jsonData);
-			return "temphtml";
+			return "index";
+		}else if(id.startsWith("GA_SRS_")){
+			List<SRS_DTO> jsonData = srs_service.findByID(id);
+			model.addAttribute("jsonData", jsonData);
+			return "index";
 		}
-		return "temphtml";
+		return "index";
+	}
+	
+	@GetMapping(value = "/incominglinks")
+	public String getIncomingLinks(@RequestParam("id") String id, Model model) {
+		List<Map<String,Object>> jsonData = links_service.getIncommingLinks(id);
+		model.addAttribute("jsonData", jsonData);
+		return "tree";
+	}
+	
+	@GetMapping(value = "/outgoinglinks")
+	public String getOutgoingLinks(@RequestParam("id") String id, Model model) {
+		List<Map<String,Object>> jsonData = links_service.getOutgoingLinks(id);
+		model.addAttribute("jsonData", jsonData);
+		return "tree";
 	}
 	
 	/*

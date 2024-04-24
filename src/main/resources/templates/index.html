@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="ISO-8859-1">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Search and Table</title>
+	<link rel="stylesheet" type="text/css" href="style.css"> <!-- Link to separate CSS file -->
+	<script src="https://kit.fontawesome.com/964a5c8cac.js" crossorigin="anonymous"></script>
+</head>
+
+<body class="list">
+
+	<script th:inline="javascript">
+		/*<![CDATA[*/
+		var jsonData = /*[[${jsonData}]]*/ '[]';
+
+		/*]]>*/
+	</script>
+
+	<header class="header">
+		<nav class="nav" aria-label="Main">
+
+			<p><a href=""></a></p>
+			<ul class="navi">
+				<li><a href="">Home</a></li>
+				<li><a href="">Baseline</a></li>
+				<li><a href="">Add data</a></li>
+			</ul>
+		</nav>
+	</header>
+
+
+
+	<div class="data-container">
+		<form th:action="@{/}" method="get">
+			<input class="input-group__input" type="text" name="id" th:value="${id}" placeholder="Search" size="50">
+			<button class="button-10" role="button">Search</button>
+		</form>
+	</div>
+
+	<div class="data-container-main">
+		<div class="left-panel">
+			<div id="tbcontainer">
+
+			</div>
+		</div>
+		<div class="right-panel">
+			<p>
+				Graph
+			</p>
+		</div>
+	</div>
+
+	<script>
+		var id = " ";
+		function createTable(data, parentElement) {
+			Object.values(data).forEach(function (value) {
+				var tableContainer = document.createElement('div');
+				tableContainer.classList.add('table-container');
+				var table = document.createElement('table');
+
+				var header = table.createTHead();
+				var row = header.insertRow();
+				Object.keys(value).forEach(function (key) {
+					var th = document.createElement('th');
+					// Split the key on underscores and capitalize the first letter of each word
+					var formattedKey = key.split('_').map(function (word) {
+						return word.charAt(0).toUpperCase() + word.slice(1);
+					}).join(' ');
+					th.textContent = formattedKey;
+					row.appendChild(th);
+				});
+				// Add an extra column header for the icons
+				var th = document.createElement('th');
+				th.textContent = 'Links'; 
+				row.appendChild(th);
+
+				var tbody = document.createElement('tbody');
+				table.appendChild(tbody);
+
+				var row = tbody.insertRow();
+				Object.values(value).forEach(function (k) {
+					id = value["id"] //id
+					
+					var cell = row.insertCell();
+					cell.textContent = k;
+				});
+				
+				// Add the extra column with the icons
+				var actionCell = row.insertCell();
+				actionCell.innerHTML = '<td><div><a href="#"><i class="fa-solid fa-angle-up up-down" id="upButton"></i></a><a href="#"><i class="fa-solid fa-angle-down up-down" id="downButton"></i></a></div></td>';
+				tableContainer.appendChild(table);
+				parentElement.appendChild(tableContainer);
+				
+				document.querySelectorAll('#upButton').forEach(function (button) {
+					button.addEventListener('click', function (event) {
+						event.preventDefault(); // Prevent default anchor behavior
+						
+						const url = '/incominglinks?id=' + id;
+						window.location.href = url;
+
+						// Send AJAX request to the Spring Boot controller
+						fetch(url)
+							.then(response => {
+								if (response.ok) {
+									console.log('Controller invoked successfully!');
+								} else {
+									console.error('Error invoking controller:', response.statusText);
+								}
+							})
+							.catch(error => {
+								console.error('Fetch error:', error);
+							});
+					});
+				});
+				
+				document.querySelectorAll('#downButton').forEach(function (button) {
+					button.addEventListener('click', function (event) {
+						event.preventDefault(); // Prevent default anchor behavior
+						
+						const url = '/outgoinglinks?id=' + id;
+						window.location.href = url;
+
+						// Send AJAX request to the Spring Boot controller
+						fetch(url)
+							.then(response => {
+								if (response.ok) {
+									console.log('Controller invoked successfully!');
+								} else {
+									console.error('Error invoking controller:', response.statusText);
+								}
+							})
+							.catch(error => {
+								console.error('Fetch error:', error);
+							});
+					});
+				});
+				
+			});
+		}
+		var container = document.getElementById('tbcontainer');
+		createTable(jsonData, container);
+		
+	</script>
+
+	<!--<script src="js/script.js"></script>-->
+
+</body>
+
+</html>

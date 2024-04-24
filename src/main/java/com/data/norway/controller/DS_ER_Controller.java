@@ -20,7 +20,6 @@ public class DS_ER_Controller {
 		this.ds_er_service = ds_er_service;
 	}
 	
-	
 	@GetMapping(value = "/rel")
 	public String findRel(@RequestParam("id") String id, Model model) {
 		List<Map<String, Object>> jsonData = ds_er_service.findRelOptional(id); 

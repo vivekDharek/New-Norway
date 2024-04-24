@@ -21,10 +21,10 @@ public class SAD_Controller {
 		this.sad_service = sad_service;
 	}
 	
-	@GetMapping(value = "/incominglinks")
-	public String findIncomingLinks(@RequestParam("id") String id, Model model){
-		List<Map<String,Object>> jsonData = sad_service.getIncommingLinks(id);
-		model.addAttribute("jsonData", jsonData);
-		return "tree";
-	}
+	/*
+	 * @GetMapping(value = "/incominglinks") public String
+	 * findIncomingLinks(@RequestParam("id") String id, Model model){
+	 * List<Map<String,Object>> jsonData = sad_service.getIncommingLinks(id);
+	 * model.addAttribute("jsonData", jsonData); return "tree"; }
+	 */
 }
