@@ -43,7 +43,7 @@ public class Link_ServiceImpl implements Links_Service {
 	}
 
 	@Override
-	public List<Map<String, Object>> getGraph(String id) {
+	public List<Map<String, Object>> getIncommingGraph(String id) {
 		List<Map<String, Object>> resultList = new ArrayList<>();
 		try (Session session = driver.session()) {
 
@@ -70,6 +70,26 @@ public class Link_ServiceImpl implements Links_Service {
 		try (Session session = driver.session()) {
 
 			Result result = session.run("MATCH p=(n{id:$id})-[*1]->(m) return properties(n), collect(properties(m))",
+					Values.parameters("id", id));
+			while (result.hasNext()) {
+				Record record = result.next();
+				System.out.println("Record: " + record);
+				Map<String, Object> nodeData = record.asMap();
+				resultList.add(nodeData);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return resultList;
+	}
+	
+	@Override
+	public List<Map<String, Object>> getOutgoingGraph(String id) {
+		List<Map<String, Object>> resultList = new ArrayList<>();
+		try (Session session = driver.session()) {
+
+			Result result = session.run(
+					"MATCH path = (n{id:$id})-[*1]->(m) with collect(path) as paths call apoc.convert.toTree(paths) yield value return value",
 					Values.parameters("id", id));
 			while (result.hasNext()) {
 				Record record = result.next();

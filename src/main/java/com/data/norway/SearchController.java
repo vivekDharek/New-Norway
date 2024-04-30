@@ -201,7 +201,7 @@ public class SearchController {
 	@GetMapping(value = "/incominglinks")
 	public String getIncomingLinks(@RequestParam("id") String id, Model model) {
 		List<Map<String,Object>> jsonData = links_service.getIncommingLinks(id);
-		List<Map<String,Object>> graphData = links_service.getGraph(id);
+		List<Map<String,Object>> graphData = links_service.getIncommingGraph(id);
 		model.addAttribute("jsonData", jsonData);
 		model.addAttribute("graphData", graphData);
 		return "tree";
@@ -210,7 +210,9 @@ public class SearchController {
 	@GetMapping(value = "/outgoinglinks")
 	public String getOutgoingLinks(@RequestParam("id") String id, Model model) {
 		List<Map<String,Object>> jsonData = links_service.getOutgoingLinks(id);
+		List<Map<String,Object>> graphData = links_service.getOutgoingGraph(id);
 		model.addAttribute("jsonData", jsonData);
+		model.addAttribute("graphData", graphData);
 		return "tree";
 	}
 	
