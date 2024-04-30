@@ -7,13 +7,20 @@
 	<title>Search and Table</title>
 	<link rel="stylesheet" type="text/css" href="style.css"> <!-- Link to separate CSS file -->
 	<script src="https://kit.fontawesome.com/964a5c8cac.js" crossorigin="anonymous"></script>
+	<script src="https://d3js.org/d3.v7.min.js"></script>
+	<style>
+		path {
+			fill: none;
+			stroke: black;
+		}
+	</style>
 </head>
 
 <body class="list">
 
 	<script th:inline="javascript">
 		/*<![CDATA[*/
-		var jsonData = /*[[${jsonData}]]*/ '[]';
+		var jsonData = /*[[${jsonData}]]*/ '{}';
 
 		/*]]>*/
 	</script>
@@ -37,7 +44,6 @@
 		</form>
 	</div>
 
-
 	<div class="data-container-main">
 		<div class="left-panel">
 			<div id="tbcontainer">
@@ -45,9 +51,92 @@
 			</div>
 		</div>
 		<div class="right-panel">
-			<p>
-				Graph
-			</p>
+			<button class="button-10" role="button">Graph</button>
+			<svg width="600" height="600"></svg>
+			<script th:inline="javascript">
+				/*<![CDATA[*/
+				var graphData = /*[[${graphData}]]*/ '{}';
+
+				/*]]>*/
+			</script>
+			<script>
+				// Create tree layout
+				var treeLayout = d3.tree().size([600, 400]);
+
+				// Create hierarchy
+				var root = d3.hierarchy(graphData[0], function (d) {
+					return d.value && d.value.realizes ? d.value.realizes : [];
+				});
+
+				// Assigns parent, children, height, depth
+				treeLayout(root);
+
+				// Append the svg object to the body of the page
+				var svg = d3.select("svg"),
+					g = svg.append("g").attr("transform", "translate(40,0)");
+
+				// Add links
+				g.selectAll(".link")
+					.data(root.links())
+					.enter().append("path")
+					.attr("class", "link")
+					.attr("d", d3.linkVertical()
+						.x(function (d) {return d.y;})
+						.y(function (d) {return d.x;}));
+
+				// Add nodes
+				var node = g.selectAll(".node")
+					.data(root.descendants())
+					.enter().append("g")
+					.attr("class", "node")
+					.attr("transform", function (d) {return "translate(" + d.y + "," + d.x + ")";})
+					.call(d3.drag().on("start", dragStarted).on("drag", dragged).on("end", dragEnded));
+
+				// Add circles to nodes
+				node.append("circle")
+					.attr("r", 10);
+
+				// Add text to nodes
+				node.append("text")
+					.attr("dy", ".35em")
+					.attr("x", function (d) {return d.children ? -13 : 13;})
+					.style("text-anchor", function (d) {return d.children ? "end" : "start";})
+					.text(function (d) {
+						return d.data.value.id;
+					});
+
+				// Drag started event handler
+				function dragStarted(event, d) {
+					d3.select(this).raise().classed("active", true);
+				}
+
+				// Dragged event handler
+				function dragged(event, d) {
+					d3.select(this)
+						.attr("cx", d.x = event.x)
+						.attr("cy", d.y = event.y)
+						.transition()
+						.duration(50)
+						.ease(d3.easeLinear)
+						.attr("cx", d.x + Math.random() * 10 - 5)
+						.attr("cy", d.y + Math.random() * 10 - 5);
+
+					updateLinks();
+				}
+
+				// Drag ended event handler
+				function dragEnded(event, d) {
+					d3.select(this).classed("active", false);
+				}
+
+				function updateLinks() {
+					link.attr("d", function (d) {
+						return "M" + graphData[d.source - 1].x + "," + graphData[d.source - 1].y
+							+ " " + graphData[d.target - 1].x + "," + graphData[d.target - 1].y;
+					});
+				}
+			</script>
+
 		</div>
 	</div>
 
@@ -73,30 +162,30 @@
 
 			});
 		}
-		
+
 		function generateTable(jData, parentElement) {
 			var id = " ";
 			//alert(jData)
 			var tableContainer = document.createElement('div');
 			tableContainer.classList.add('table-container');
 
-			var button = document.createElement("button");
+			//var button = document.createElement("button");
 
 			// Set button text
-			button.textContent = "Click me";
+			//button.textContent = "Click me";
 
 			// Set button ID
-			button.id = jData["id"];
+			//button.id = jData["id"];
 			id = jData["id"];
 
 			// Set button click event handler
-			button.onclick = function () {
+			/*button.onclick = function () {
 				//alert(this.id);
 				alert(id)
 				//alert(jData["id"])
-			};
+			};*/
 
-			parentElement.appendChild(button);
+			//parentElement.appendChild(button);
 
 			var table = document.createElement('table');
 
@@ -127,10 +216,32 @@
 			parentElement.appendChild(tableContainer);
 
 			document.querySelectorAll('#upButton').forEach(function (button) {
-				
+
 				button.addEventListener('click', function (event) {
 					event.preventDefault(); // Prevent default anchor behavior
 					const url = '/incominglinks?id=' + id;
+					window.location.href = url;
+
+					// Send AJAX request to the Spring Boot controller
+					fetch(url)
+						.then(response => {
+							if (response.ok) {
+								console.log('Controller invoked successfully!');
+							} else {
+								console.error('Error invoking controller:', response.statusText);
+							}
+						})
+						.catch(error => {
+							console.error('Fetch error:', error);
+						});
+				});
+			});
+
+			document.querySelectorAll('#downButton').forEach(function (button) {
+
+				button.addEventListener('click', function (event) {
+					event.preventDefault(); // Prevent default anchor behavior
+					const url = '/outgoinglinks?id=' + id;
 					window.location.href = url;
 
 					// Send AJAX request to the Spring Boot controller

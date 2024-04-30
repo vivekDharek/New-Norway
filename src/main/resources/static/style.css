@@ -174,8 +174,10 @@ table td {
 	padding: 8px;
 	border-bottom: 1px solid #ddd;
 	font-size: 12px;
-    overflow: hidden; /* Hide overflowing content */
-    text-overflow: ellipsis; /* Show ellipsis for overflowed content */
+	overflow: hidden;
+	/* Hide overflowing content */
+	text-overflow: ellipsis;
+	/* Show ellipsis for overflowed content */
 }
 
 table th {
@@ -298,3 +300,7 @@ input[type="text"]:hover {
 	color: #23a568;
 }
 
+path {
+	fill: none;
+	stroke: black;
+}

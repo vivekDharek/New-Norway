@@ -191,10 +191,19 @@ public class SearchController {
 		return "index";
 	}
 	
-	@GetMapping(value = "/incominglinks")
+	/*@GetMapping(value = "/incominglinks")
 	public String getIncomingLinks(@RequestParam("id") String id, Model model) {
 		List<Map<String,Object>> jsonData = links_service.getIncommingLinks(id);
 		model.addAttribute("jsonData", jsonData);
+		return "tree";
+	}*/
+	
+	@GetMapping(value = "/incominglinks")
+	public String getIncomingLinks(@RequestParam("id") String id, Model model) {
+		List<Map<String,Object>> jsonData = links_service.getIncommingLinks(id);
+		List<Map<String,Object>> graphData = links_service.getGraph(id);
+		model.addAttribute("jsonData", jsonData);
+		model.addAttribute("graphData", graphData);
 		return "tree";
 	}
 	

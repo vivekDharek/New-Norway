@@ -7,5 +7,5 @@ public interface Links_Service {
 	
 	List<Map<String, Object>> getIncommingLinks(String id);
 	List<Map<String, Object>> getOutgoingLinks(String id);
-
+	List<Map<String, Object>> getGraph(String id);
 }
