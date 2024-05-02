@@ -11,14 +11,14 @@ import org.neo4j.driver.Session;
 import org.neo4j.driver.Values;
 import org.springframework.stereotype.Service;
 
-import com.data.norway.service.Links_Service;
+import com.data.norway.service.Nodes_Services;
 
 @Service
-public class Link_ServiceImpl implements Links_Service {
-
+public class Nodes_ServiceImpl implements Nodes_Services {
+	
 	final Driver driver;
-
-	public Link_ServiceImpl(Driver driver) {
+	
+	public Nodes_ServiceImpl(Driver driver) {
 		super();
 		this.driver = driver;
 	}
@@ -62,8 +62,6 @@ public class Link_ServiceImpl implements Links_Service {
 		return resultList;
 	}
 
-	// add for realizes.
-
 	@Override
 	public List<Map<String, Object>> getOutgoingLinks(String id) {
 		List<Map<String, Object>> resultList = new ArrayList<>();
@@ -103,6 +101,23 @@ public class Link_ServiceImpl implements Links_Service {
 		return resultList;
 	}
 
-	// add for
+	@Override
+	public List<Map<String, Object>> getNode(String id) {
+		List<Map<String, Object>> resultList = new ArrayList<>();
+		try (Session session = driver.session()) {
+
+			Result result = session.run(
+					"MATCH (n{id:$id}) return properties(n)", Values.parameters("id", id));
+			while (result.hasNext()) {
+				Record record = result.next();
+				System.out.println("Record: " + record);
+				Map<String, Object> nodeData = record.asMap();
+				resultList.add(nodeData);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return resultList;
+	}
 
 }

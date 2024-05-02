@@ -176,32 +176,18 @@
 			var tableContainer = document.createElement('div');
 			tableContainer.classList.add('table-container');
 
-			//var button = document.createElement("button");
-
-			// Set button text
-			//button.textContent = "Click me";
-
-			// Set button ID
-			//button.id = jData["id"];
 			id = jData["id"];
-
-			// Set button click event handler
-			/*button.onclick = function () {
-				//alert(this.id);
-				alert(id)
-				//alert(jData["id"])
-			};*/
-
-			//parentElement.appendChild(button);
 
 			var table = document.createElement('table');
 
 			var header = table.createTHead();
 			var row = header.insertRow();
 			Object.keys(jData).forEach(function (ke) {
-
 				var th = document.createElement('th');
-				th.textContent = ke;
+				var formattedKey = ke.split('_').map(function (word){
+					return word.charAt(0).toUpperCase() + word.slice(1);
+				}).join(' ');
+				th.textContent = formattedKey;
 				row.appendChild(th);
 
 			});
