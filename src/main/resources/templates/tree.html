@@ -18,7 +18,7 @@
 			display: flex;
 			justify-content: center;
 			align-items: center;
-			
+
 			/* Adjust as needed */
 		}
 	</style>
@@ -59,7 +59,7 @@
 			</div>
 		</div>
 		<div class="right-panel">
-			<svg class="svg-container" width="700" height="600"></svg>
+			<svg class="svg-container" width="700" height="800"></svg>
 			<script th:inline="javascript">
 				/*<![CDATA[*/
 				var graphData = /*[[${graphData}]]*/ '{}';
@@ -148,74 +148,90 @@
 	</div>
 
 	<script>
+		// Function to create a table from provided data and append it to the parent element
 		function createTable(data, parentElement) {
-
+			// Iterate over each value in the data object
 			Object.values(data).forEach(function (value) {
-				//alert(value)
-
+				// Iterate over each value within the current value object
 				Object.values(value).forEach(function (key) {
-					//alert(key)
-
+					// Check if the current key is an array
 					if (Array.isArray(key)) {
+						// If key is an array, iterate over its values and generate a table for each
 						Object.values(key).forEach(function (k) {
 							generateTable(k, parentElement);
 						});
 					} else {
+						// If key is not an array, generate a table directly
 						generateTable(key, parentElement); // for properties(n)
 					}
-
-					//alert(key)
 				});
-
 			});
 		}
 
+		// Function to generate a table for a given JSON data object and append it to the parent element
 		function generateTable(jData, parentElement) {
-			var id = " ";
-			//alert(jData)
+			var id = " "; // Initialize a variable to store the current ID
+
+			// Create a container div for the table and add a class to it
 			var tableContainer = document.createElement('div');
 			tableContainer.classList.add('table-container');
 
-			id = jData["id"];
+			id = jData["id"]; // Store the current ID
 
+			// Create the table element
 			var table = document.createElement('table');
 
+			// Create the table header
 			var header = table.createTHead();
 			var row = header.insertRow();
+
+			// Iterate over the keys in the jData object to create table headers
 			Object.keys(jData).forEach(function (ke) {
 				var th = document.createElement('th');
-				var formattedKey = ke.split('_').map(function (word){
+
+				// Format the key by splitting on underscores, capitalizing each word, and joining them with spaces
+				var formattedKey = ke.split('_').map(function (word) {
 					return word.charAt(0).toUpperCase() + word.slice(1);
 				}).join(' ');
+
 				th.textContent = formattedKey;
 				row.appendChild(th);
-
 			});
-			// Add an extra column header for the icons
+
+			// Add an extra column header for the icons (links)
 			var th = document.createElement('th');
 			th.textContent = 'Links';
 			row.appendChild(th);
+
+			// Create the table body
 			var tbody = document.createElement('tbody');
 			table.appendChild(tbody);
 
+			// Insert a new row in the table body
 			var row = tbody.insertRow();
+
+			// Iterate over the values in the jData object to create table cells
 			Object.values(jData).forEach(function (value) {
 				var cell = row.insertCell();
 				cell.textContent = value;
 			});
+
+			// Add an extra cell with icons for up and down links
 			var actionCell = row.insertCell();
 			actionCell.innerHTML = '<td><div><a href="#"><i class="fa-solid fa-angle-up up-down" id="upButton"></i></a><a href="#"><i class="fa-solid fa-angle-down up-down" id="downButton"></i></a></div></td>';
 			tableContainer.appendChild(table);
 			parentElement.appendChild(tableContainer);
 
+			// Add event listeners to the up buttons
 			document.querySelectorAll('#upButton').forEach(function (button) {
-
 				button.addEventListener('click', function (event) {
 					event.preventDefault(); // Prevent default anchor behavior
+
+					// Define the URL for the incoming links
 					const url = '/incominglinks?id=' + id;
 					window.location.href = url;
 
-					// Send AJAX request to the Spring Boot controller
+					// Send an AJAX request to the Spring Boot controller
 					fetch(url)
 						.then(response => {
 							if (response.ok) {
@@ -230,14 +246,16 @@
 				});
 			});
 
+			// Add event listeners to the down buttons
 			document.querySelectorAll('#downButton').forEach(function (button) {
-
 				button.addEventListener('click', function (event) {
 					event.preventDefault(); // Prevent default anchor behavior
+
+					// Define the URL for the outgoing links
 					const url = '/outgoinglinks?id=' + id;
 					window.location.href = url;
 
-					// Send AJAX request to the Spring Boot controller
+					// Send an AJAX request to the Spring Boot controller
 					fetch(url)
 						.then(response => {
 							if (response.ok) {
@@ -253,11 +271,13 @@
 			});
 		}
 
+		// Get the container element where the table will be appended
 		var container = document.getElementById('tbcontainer');
+
+		// Call the createTable function with the provided JSON data and container element
 		createTable(jsonData, container);
-
-
 	</script>
+
 
 	<script>
 		function exportTables() {
@@ -288,8 +308,6 @@
 			saveAs(blob, 'exported_tables_data.txt');
 		}
 	</script>
-
-	<!--<script src="js/script.js"></script>-->
 
 </body>
 

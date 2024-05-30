@@ -3,8 +3,21 @@ package com.data.norway.model;
 import org.springframework.data.neo4j.core.schema.Id;
 import org.springframework.data.neo4j.core.schema.Node;
 
+/**
+*
+* @author Vivek Dharek
+*/
+
+
 @Node
 public class Nodes {
+	
+	/**
+	*
+	* Nodes class contains all the properties. 
+	* Properties should be named same as defined in database. 
+	*/
+
 	
 	@Id
 	private String id;
@@ -23,6 +36,7 @@ public class Nodes {
 	private String val_proof_measure;
 	private String val_result;
 	private String val_statement;
+	
 	public String getId() {
 		return id;
 	}

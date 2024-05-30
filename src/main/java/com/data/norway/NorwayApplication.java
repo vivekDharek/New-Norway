@@ -12,6 +12,11 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 
+/**
+ *
+ * @author Vivek Dharek
+ */
+
 @Configuration
 @EnableAutoConfiguration
 @ComponentScan
@@ -21,14 +26,19 @@ public class NorwayApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(NorwayApplication.class, args);
 	}
+
+	/**
+	 * 
+	 * Following will print total number of nodes from the database. This is just to ensure that we are connected to the database. 
+	 */
 	
 	@Bean
 	CommandLineRunner run(Driver driver) {
 		return args -> {
-			int nodes = driver.session().readTransaction(tx ->tx.run("MATCH (n) return count(*) as nodes").single().get("nodes").asInt());
+			int nodes = driver.session()
+					.readTransaction(tx -> tx.run("MATCH (n) return count(*) as nodes").single().get("nodes").asInt());
 			System.out.println(nodes);
 		};
 	}
-
 
 }

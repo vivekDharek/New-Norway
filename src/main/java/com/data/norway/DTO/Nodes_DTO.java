@@ -3,9 +3,19 @@ package com.data.norway.DTO;
 import lombok.Builder;
 import lombok.Data;
 
+/**
+*
+* @author Vivek Dharek
+*/
+
 @Data
 @Builder
 public class Nodes_DTO {
+	
+	/**
+	*
+	* DTO class
+	*/
 	
 	private String id;
 	private String ac_condition;
