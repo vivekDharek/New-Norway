@@ -30,7 +30,11 @@ public class Nodes_ServiceImpl implements Nodes_Services {
 	/**
 	*
 	* Following method gets incoming node data up to one level for given id for table based visualization.
-	*/
+	* when the return data contains only one entry, that to say without child nodes, only parent table data will be displayed.
+	* @param ID				a string id given by user to perform action.
+	* @return resultList	return list of gathered API data.
+	* @see 					table representation.
+	*/ 
 
 	@Override
 	public List<Map<String, Object>> getIncommingLinks(String id) {
@@ -53,6 +57,10 @@ public class Nodes_ServiceImpl implements Nodes_Services {
 	/**
 	*
 	* Following method gets incoming node data as tree structure for given id for graph visualization.
+	* when the return data contains only one entry, that to say without child nodes, only parent node will be displayed along with table. 
+	* @param ID				a string id given by user to perform action.
+	* @return resultList	return list of gathered API data.
+	* @see 					Graph nodes representation.
 	*/
 
 	@Override
@@ -77,6 +85,10 @@ public class Nodes_ServiceImpl implements Nodes_Services {
 	/**
 	*
 	* Following method gets outgoing node data for given id for table based visualization.
+	* when the return data contains only one entry, that to say without child nodes, only parent table data will be displayed.
+	* @param ID				a string id given by user to perform action.
+	* @return resultList	return list of gathered API data.
+	* @see 					table based representation.
 	*/
 
 	@Override
@@ -101,6 +113,10 @@ public class Nodes_ServiceImpl implements Nodes_Services {
 	/**
 	*
 	* Following method gets outgoing node data as tree structure for given id for graph visualization.
+	* when the return data contains only one entry, that to say without child nodes, only parent node will be displayed along with table.
+	* @param ID				a string id given by user to perform action.
+	* @return resultList	return list of gathered API data.
+	* @see  				Graph nodes representation.
 	*/
 	
 	@Override
@@ -125,6 +141,9 @@ public class Nodes_ServiceImpl implements Nodes_Services {
 	/**
 	*
 	* Following method gets single node data for given id for table visualization.
+	* @param ID				a string id given by user to perform action.
+	* @return resultList	return list of gathered API data.
+	* @see 					single table result representation.
 	*/
 
 	@Override

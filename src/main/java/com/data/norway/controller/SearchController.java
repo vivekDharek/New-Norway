@@ -48,8 +48,8 @@ public class SearchController {
 	/**
 	*
 	* For getting incoming links and incoming graph.
-	* jsonData will hold the values of all incoming nodes and will be passed to front-end through model.addAttribute  
-	* graphData will hold the values of all incoming nodes as tree structure and will be passed to front-end through model.addAttribute 
+	* jsonData will hold the data of all incoming nodes and will be passed to front-end through model.addAttribute  
+	* graphData will hold the data of all incoming nodes as tree structure and will be passed to front-end through model.addAttribute 
 	* @return tree.html
 	*/
 	

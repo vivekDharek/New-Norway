@@ -16,6 +16,7 @@ public class Nodes {
 	*
 	* Nodes class contains all the properties. 
 	* Properties should be named same as defined in database. 
+	* This is POJO.
 	*/
 
 	
