@@ -40,9 +40,9 @@ public class SearchController {
 
 	@GetMapping(path = "/")
 	public String byId(String id, Model model){
-		List<Map<String, Object>> jsonData = nodes_service.getNode(id);
+		List<Map<String, Object>> jsonData = nodes_service.getBaseline(id);
 		model.addAttribute("jsonData", jsonData);
-		return "tree";
+		return "baseline";
 	}
 	
 	/**

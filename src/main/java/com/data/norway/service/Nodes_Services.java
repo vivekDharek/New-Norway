@@ -19,5 +19,6 @@ public interface Nodes_Services {
 	List<Map<String, Object>> getIncommingGraph(String id);
 	List<Map<String, Object>> getOutgoingGraph(String id);
 	List<Map<String, Object>> getNode(String id);
+	List<Map<String, Object>> getBaseline(String id);
 
 }

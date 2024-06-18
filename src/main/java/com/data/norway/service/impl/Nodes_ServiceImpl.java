@@ -163,5 +163,23 @@ public class Nodes_ServiceImpl implements Nodes_Services {
 		}
 		return resultList;
 	}
+	
+	@Override
+	public List<Map<String, Object>> getBaseline(String id) {
+		List<Map<String, Object>> resultList = new ArrayList<>();
+		try (Session session = driver.session()) {
+
+			Result result = session.run(
+					"MATCH (n{id:$id}) return n.id as ID, n.obj_text as Object_Text", Values.parameters("id", id));
+			while (result.hasNext()) {
+				Record record = result.next();
+				Map<String, Object> nodeData = record.asMap();
+				resultList.add(nodeData);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return resultList;
+	}
 
 }

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<!-- 
+	In this file, JavaScript code is coded in the consideration of API data fatched from Neo4jRepository, which is no longer used in this project.
+	But could be used in future.
+-->
+
+
+<head>
+	<meta charset="ISO-8859-1">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Search and Table</title>
+	<link rel="stylesheet" type="text/css" href="style.css"> <!-- Link to separate CSS file -->
+	<script src="https://kit.fontawesome.com/964a5c8cac.js" crossorigin="anonymous"></script>
+</head>
+
+<body class="list">
+
+	<script th:inline="javascript">
+		/*<![CDATA[*/
+		// This script is using Thymeleaf to inline JavaScript. 
+		// Thymeleaf's 'th:inline="javascript"' attribute allows us to inject server-side variables into JavaScript code.
+
+		// Define a JavaScript variable 'jsonData' and assign it the value of the server-side variable 'jsonData'.
+		// The server-side 'jsonData' is injected into the JavaScript context.
+		var jsonData = /*[[${jsonData}]]*/ '[]';
+
+		// '/*[[${jsonData}]]*/' is a Thymeleaf expression used to insert the value of the 'jsonData' variable from the server-side.
+		// If 'jsonData' is not available or cannot be resolved, the default value '[]' (an empty array) is assigned to the 'jsonData' variable.
+		/*]]>*/
+	</script>
+
+	<header class="header">
+		<nav class="nav" aria-label="Main">
+
+			<p><a href=""></a></p>
+			<ul class="navi">
+				<li><a href="">Home</a></li>
+				<li><a href="">Baseline</a></li>
+				<li><a href="">Add data</a></li>
+			</ul>
+		</nav>
+	</header>
+
+	<div class="data-container">
+		<form th:action="@{/}" method="get">
+			<input class="input-group__input" type="text" name="id" th:value="${id}" placeholder="Search" size="50">
+			<button class="button-10" role="button">Search</button>
+		</form>
+	</div>
+
+	<div class="data-container-main">
+		<div class="left-panel">
+			<div id="table-container">
+
+			</div>
+		</div>
+		<div class="right-panel">
+
+		</div>
+	</div>
+	
+	<script>
+		function createTableFromJson(jsonData) {
+			const tableContainer = document.getElementById('table-container');
+
+			// Create table element
+			const table = document.createElement('table');
+
+			// Create table header
+			const thead = document.createElement('thead');
+			const headerRow = document.createElement('tr');
+			const headers = Object.keys(jsonData[0]);
+
+			headers.forEach(headerText => {
+				const th = document.createElement('th');
+				th.textContent = headerText;
+				headerRow.appendChild(th);
+			});
+			thead.appendChild(headerRow);
+			table.appendChild(thead);
+
+			// Create table body
+			const tbody = document.createElement('tbody');
+
+			jsonData.forEach(item => {
+				const row = document.createElement('tr');
+				headers.forEach(headerText => {
+					const td = document.createElement('td');
+					td.textContent = item[headerText];
+					row.appendChild(td);
+				});
+				tbody.appendChild(row);
+			});
+			table.appendChild(tbody);
+			// Append table to container
+			tableContainer.appendChild(table);
+		}
+		// Call the function to create table
+		createTableFromJson(jsonData);
+	</script>
+
+</body>
+
+</html>
